@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>JSON Table</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+      $( document ).ready(function() {
+        $.ajax({
+          type: 'POST',
+          url: 'https://www.notino.co.uk/api/navigation/navigation/notino.co.uk',
+          data: {"urlPart":"fragrance-outlet","pageSize":256,"filterString":"1-1-55544-55549-100164","include":{"filtration":false,"breadcrumbs":false,"navigationTree":false,"searchCategories":false,"listing":true,"specialPageData":false}},
+          success: function(response){ 
+            // Retrieve response data and render into HTML table
+            var jsonPath = 'listing.products';
+            var data = response[jsonPath];
+            var table = $('<table>');
+            var tr = $('<tr>');
+            var headers = Object.keys(data[0]);
+            $.each(headers, function(key, value){
+              tr.append('<th>'+value+'</th>');
+            });
+            table.append(tr);
+            $.each(data, function(i, item){
+              var tr = $('<tr>');
+              $.each(headers, function(key, value){
+                tr.append('<td>'+item[value]+'</td>');
+              });
+              table.append(tr);
+            });
+            $('body').append(table);
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Table will be rendered here -->
+  </body>
+</html>
